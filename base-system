@@ -1,0 +1,85 @@
+#!/bin/bash
+
+dnf install -y \
+glx-utils \
+mesa-dri-drivers \
+mesa-vulkan-drivers \
+plymouth-system-theme \
+xorg-x11-drv-libinput \
+xorg-x11-utils \
+xorg-x11-xauth \
+xorg-x11-xinit \
+dejavu-sans-mono-fonts \
+dejavu-serif-fonts \
+google-noto-emoji-color-fonts \
+google-noto-sans-cjk-ttc-fonts \
+liberation-mono-fonts \
+liberation-sans-fonts \
+liberation-serif-fonts \
+adwaita-gtk2-theme \
+breeze-icon-theme \
+dolphin \
+firewall-config \
+glibc-all-langpacks \
+gnome-keyring-pam \
+kcm_systemd \
+kde-gtk-config \
+kde-settings-pulseaudio \
+kde-style-breeze \
+kdegraphics-thumbnailers \
+kdeplasma-addons \
+kdialog \
+kdnssd \
+kf5-akonadi-server \
+kf5-akonadi-server-mysql \
+kf5-baloo-file \
+kf5-kipi-plugins \
+khotkeys \
+kmenuedit \
+konsole5 \
+kscreen \
+kscreenlocker \
+ksshaskpass kwalletmanager5 \
+kgpg \
+kwebkitpart \
+kwin \
+NetworkManager-config-connectivity-fedora \
+pam-kwallet \
+phonon-qt5-backend-gstreamer \
+pinentry-qt \
+plasma-breeze \
+plasma-desktop \
+plasma-desktop-doc \
+plasma-drkonqi \
+plasma-nm \
+plasma-pa \
+plasma-user-manager \
+plasma-workspace \
+plasma-workspace-geolocation \
+polkit-kde \
+qt5-qtdeclarative \
+sddm \
+sddm-breeze \
+sddm-kcm \
+setroubleshoot \
+sni-qt \
+system-config-language \
+kate
+
+dnf install -y https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+dnf groupupdate -y core
+dnf groupupdate -y multimedia --setop="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin
+dnf groupupdate -y sound-and-video
+dnf update -y
+dnf install -y akmod-nvidia xorg-x11-drv-nvidia xorg-x11-drv-nvidia-cuda-libs
+
+
+systemctl enable sddm
+systemctl set-default graphical.target
+
+grubby --update-kernel=ALL --args='nvidia-drm.modeset=1'
+
+dnf install -y vulkan
+dnf install -y vdpauinfo libva-vdpau-driver libva-utils
+
+reboot
